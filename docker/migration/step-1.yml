@@ -1,0 +1,8 @@
+version: '3'
+
+services: 
+  contao:
+    build: .
+    container_name: contao
+    ports:
+      - 8080:80

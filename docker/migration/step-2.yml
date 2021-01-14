@@ -1,0 +1,30 @@
+version: '3'
+
+services: 
+  contao:
+    build: .
+    container_name: contao
+    ports:
+      - 8080:80
+    volumes:
+      - ./contao:/var/www/html/contao
+  mariadb:
+    image: mariadb:10
+    container_name: mariadb
+    environment: 
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: 
+      MYSQL_USER: 
+      MYSQL_PASSWORD: 
+    volumes: 
+      - ./initdb:/docker-entrypoint-initdb.d
+      - ./mariadb.cnf:/etc/my.cnf
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+     - 8081:80

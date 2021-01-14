@@ -1,0 +1,27 @@
+version: '3'
+
+services: 
+  contao:
+    image: ghcr.io/hiqs-gmbh/contao:apache
+    container_name: contao
+    environment: 
+      WEB_PHP_SOCKET: fpm:9000
+    ports:
+      - 8080:80
+    volumes:
+      - ./data/contao:/var/www/html
+  fpm:
+    image: ghcr.io/hiqs-gmbh/contao:fpm
+    container_name: fpm
+    volumes:
+      - ./data/contao:/var/www/html
+  mariadb:
+    image: mariadb:10
+    container_name: mariadb
+    environment: 
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: 
+      MYSQL_USER: 
+      MYSQL_PASSWORD: 
+    volumes: 
+      - ./data/mariadb:/var/lib/mysql
